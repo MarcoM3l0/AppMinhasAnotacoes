@@ -1,26 +1,122 @@
-import { Text, View, ScrollView } from "react-native";
+import { useEffect, useState } from "react";
+import { View, SafeAreaView } from "react-native";
 import { Header } from "../components/header";
 import { Search } from "../components/search";
 import { Footer } from "../components/footer";
 import { NotesList } from "../components/notesList/NotesList";
-import { Link } from "expo-router";
+import { deleteNotes } from "../services/noteDelete"
+import { fetchNotes } from "../services/noteGet";
+import { toggleFavoriteNotes } from "../services/noteFavorite";
+import { SearchNotes } from "../services/noteSearch"
+
 
 
 export default function Index() {
+
+  const [selectedNotes, setSelectedNotes] = useState<number[]>([]);
+  const [notes, setNotes] = useState<any[]>([]);
+  const [filteredNotes, setFilteredNotes] = useState([]);
+
+  useEffect(() => {
+    // Carregar as notas assim que o componente for montado
+    fetchNotes()
+      .then(fetchedNotes => {
+        setNotes(fetchedNotes); // Atualiza as notas com as informações recebidas da API
+      })
+      .catch(error => console.error("Erro ao carregar notas:", error));
+  }, []);
+
+  const handleSelectNote = (id: number) => {
+    setSelectedNotes((prev) =>
+      prev.includes(id) ? prev.filter((noteId) => noteId !== id) : [...prev, id]
+    );
+  };
+
+  const handleToggleFavorite = async (ids: number[]) => {
+    console.log("Favoritando notas:", ids);
+
+    try {
+      const results = await toggleFavoriteNotes(ids);
+      console.log("Resultados da atualização:", results);
+
+      setSelectedNotes([])
+
+      // Navega para a mesma tela, "simulando" o reload
+      const updatedNotes = await fetchNotes();
+      setNotes(updatedNotes);
+
+    } catch (error) {
+      console.error("Erro ao alternar favoritos:", error);
+    }
+
+
+
+  };
+
+  const handleOpenNotes = (ids: number[]) => {
+    console.log("Abrindo notas:", ids);
+    // Lógica para abrir
+  };
+
+  const handleSearch = async (query: string) => {
+
+    try {
+      const data = await SearchNotes(query.trim())
+      setFilteredNotes(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDeleteNotes = async (ids: number[]) => {
+
+    try {
+      const result = await deleteNotes(ids);  // Chama a função de delete passando os IDs
+      console.log('Notas deletadas:', result);
+
+      setSelectedNotes([]); // Limpa a seleção após deletar
+
+      // Navega para a mesma tela, "simulando" o reload
+      const updatedNotes = await fetchNotes();
+      setNotes(updatedNotes);
+
+    } catch (error) {
+      console.error('Erro ao deletar notas:', error);
+    }
+
+  };
+  console.log(filteredNotes)
+
   return (
     <View className="w-full px-4 bg-gray-100" style={{ flex: 1 }}>
 
       <Header />
 
-      <Search />
+      <Search onSearch={handleSearch} />
 
 
-      
-      <NotesList />
+      <SafeAreaView className="flex-1">
+        <View className="flex-1 pb-24 pt-1">
 
-      <View className="absolute bottom-0 left-4 w-full bg-gray-100">
-        <Footer />
-      </View>
+          <NotesList
+            filteredNotes={filteredNotes}
+            notas={notes}
+            onSelectNote={handleSelectNote}
+            selectedNotes={selectedNotes}
+          />
+
+        </View>
+
+        <View className="absolute bottom-0 left-0 right-0 bg-gray-100">
+          <Footer
+            selectedNotes={selectedNotes}
+            onToggleFavorite={handleToggleFavorite}
+            onOpen={handleOpenNotes}
+            onDelete={handleDeleteNotes}
+          />
+        </View>
+
+      </SafeAreaView>
 
     </View>
   );

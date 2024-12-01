@@ -4,7 +4,7 @@ import axios from "axios";
 export const saveNote = (noteData) => {
   const options = {
     method: 'POST',
-    url: 'http://192.168.0.109:8802/',  // URL do seu servidor
+    url: 'http://192.168.0.105:8802/',  // URL do seu servidor
     headers: { 'Content-Type': 'application/json' },
     data: noteData, // Dados da nota
   };
