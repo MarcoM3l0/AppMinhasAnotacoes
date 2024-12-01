@@ -6,7 +6,7 @@ import { Link, useRouter } from "expo-router";
 
 
 
-import { saveNote } from '../services/noteService';
+import { saveNote } from '../services/noteCreate';
 
 
 export default function CreateNoteScreen() {
@@ -93,11 +93,30 @@ export default function CreateNoteScreen() {
                     <Text className="text-lg font-semibold text-gray-700 mb-2">Cor</Text>
                     <TextInput
                         className="bg-white p-3 rounded-lg shadow-md text-lg"
-                        placeholder="Digite o codigo HexaDicmal da cor"
-                        value={tag}
-                        onChangeText={setTag}
+                        placeholder="Digite o código Hexadecimal da cor"
+                        value={backgroundColor}
+                        onChangeText={(text) => {
+                            // Remover espaços em branco
+                            let formattedText = text.trim();
+
+                            // Garantir que o texto comece com '#' se não estiver vazio
+                            if (formattedText && !formattedText.startsWith('#')) {
+                                formattedText = `#${formattedText}`;
+                            }
+
+                            // Verificar se o texto contém apenas caracteres hexadecimais e limitar a 7 caracteres no total
+                            const regex = /^#[a-fA-F0-9]{0,6}$/;
+
+                            // Se o texto passar na regex, permite que o valor seja atualizado
+                            if (regex.test(formattedText)) {
+                                setBackgroundColor(formattedText);
+                            }
+                        }}
                     />
                 </View>
+
+
+
 
                 {/* Campo: Etiqueta */}
                 <View className="mb-6">

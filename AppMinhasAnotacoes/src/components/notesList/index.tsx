@@ -41,7 +41,7 @@ export function NotesList({ notas, onSelectNote, selectedNotes, filteredNotes }:
 
   // Definir os dados a serem exibidos
   const filteredData = filteredNotes && filteredNotes.length > 0 ? filteredNotes : notas;
-  
+
 
   useEffect(() => {
     if (!filteredNotes || filteredNotes.length === 0) {
@@ -100,7 +100,8 @@ export function NotesList({ notas, onSelectNote, selectedNotes, filteredNotes }:
           }}
         >
           {/* Card */}
-          <View className="flex-row items-center justify-between bg-white p-4 mt-3 gap-2 rounded-lg shadow-md mb-4">
+          <View className="flex-row items-center justify-between bg-white p-4 mt-3 gap-2 rounded-lg shadow-md mb-4"
+            style={{ backgroundColor: item.cor_fundo || '#fff' }}>
 
             {/* Checkbox */}
             <TouchableOpacity
@@ -118,10 +119,17 @@ export function NotesList({ notas, onSelectNote, selectedNotes, filteredNotes }:
               }}
             />
 
-            {/* Conteúdo principal */}
+            {/* Titulo */}
             <View className="flex-1">
               <Text className="text-lg font-bold text-gray-800">{item.titulo}</Text>
             </View>
+
+
+            {/* Etiqueta */}
+            <View className="flex-1">
+              <Text className="text-lg text-gray-800">{item.etiqueta}</Text>
+            </View>
+
 
             {/* Imagem opcional */}
             {item.imagem && (

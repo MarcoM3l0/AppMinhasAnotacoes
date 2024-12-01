@@ -1,14 +1,14 @@
-// Função para deletar uma ou múltiplas notas usando fetch, uma por vez
+import { API_URL } from '@env';
+
 export const deleteNotes = async (ids) => {
     try {
-        const url = 'http://192.168.0.100:8802/'; // URL do endpoint
 
         // Se for uma lista de IDs, faz o loop e deleta cada um deles
         if (Array.isArray(ids)) {
             // Loop para deletar um ID por vez
             const results = [];
             for (const id of ids) {
-                const response = await fetch(`${url}${id}`, {
+                const response = await fetch(`${API_URL}${id}`, {
                     method: 'DELETE',
                     headers: {
                         'User-Agent': 'insomnia/10.2.0',

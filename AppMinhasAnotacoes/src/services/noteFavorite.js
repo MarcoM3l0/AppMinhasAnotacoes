@@ -1,12 +1,13 @@
+import { API_URL } from '@env';
+
 export const toggleFavoriteNotes = async (ids) => {
     try {
-        const url = 'http://192.168.0.100:8802/'; // URL base do endpoint
         const idsArray = Array.isArray(ids) ? ids : [ids];
 
         const results = [];
         for (const id of idsArray) {
             // Passo 1: Buscar o estado atual da nota
-            const getResponse = await fetch(`${url}${id}`, {
+            const getResponse = await fetch(`${API_URL}${id}`, {
                 method: 'GET',
                 headers: {
                     'User-Agent': 'insomnia/10.2.0'
@@ -40,7 +41,7 @@ export const toggleFavoriteNotes = async (ids) => {
             console.log("Dados completos da nota para atualização: ", JSON.stringify(dadosNota, null, 2));
 
             // Passo 3: Atualizar o valor do campo favorito e outros campos
-            const putResponse = await fetch(`${url}${id}`, {
+            const putResponse = await fetch(`${API_URL}${id}`, {
                 method: 'PUT',
                 headers: {
                     'User-Agent': 'insomnia/10.2.0',

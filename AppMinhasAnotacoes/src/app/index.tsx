@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
-import { View, SafeAreaView } from "react-native";
+import { View, SafeAreaView, Alert } from "react-native";
 import { Header } from "../components/header";
 import { Search } from "../components/search";
 import { Footer } from "../components/footer";
-import { NotesList } from "../components/notesList/NotesList";
+import { NotesList } from "../components/notesList";
 import { deleteNotes } from "../services/noteDelete"
 import { fetchNotes } from "../services/noteGet";
 import { toggleFavoriteNotes } from "../services/noteFavorite";
 import { SearchNotes } from "../services/noteSearch"
 
+import { useRouter } from "expo-router";
+
 
 
 export default function Index() {
+
+  const router = useRouter();
 
   const [selectedNotes, setSelectedNotes] = useState<number[]>([]);
   const [notes, setNotes] = useState<any[]>([]);
@@ -58,6 +62,23 @@ export default function Index() {
     // Lógica para abrir
   };
 
+  const handleEditNotes = (id: number[]) => {
+
+    if (id.length > 1) {
+      Alert.alert(
+        "Erro",
+        "Não é permitido passar mais de um ID para edição.",
+        [{ text: "OK" }]
+      );
+      return;
+    }else if(id.length == 0) {
+      return;
+    }
+
+    router.push(`/EditNoteScreen?id=${id[0]}`);
+
+  };
+
   const handleSearch = async (query: string) => {
 
     try {
@@ -85,7 +106,6 @@ export default function Index() {
     }
 
   };
-  console.log(filteredNotes)
 
   return (
     <View className="w-full px-4 bg-gray-100" style={{ flex: 1 }}>
@@ -111,7 +131,7 @@ export default function Index() {
           <Footer
             selectedNotes={selectedNotes}
             onToggleFavorite={handleToggleFavorite}
-            onOpen={handleOpenNotes}
+            onEdit={handleEditNotes}
             onDelete={handleDeleteNotes}
           />
         </View>

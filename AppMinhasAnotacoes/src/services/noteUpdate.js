@@ -1,12 +1,14 @@
 import axios from "axios";
+import { API_URL } from '@env';
 
-// Função para salvar a nota no banco
-export const saveNote = (noteData) => {
+// Função para editar a nota no banco
+export const updateNote = (noteData) => {
+
   const options = {
-    method: 'POST',
-    url: 'http://192.168.0.100:8802/',  // URL do seu servidor
+    method: 'PUT',
+    url: `${API_URL}/${noteData.id}`, // URL do seu servidor com o ID da nota
     headers: { 'Content-Type': 'application/json' },
-    data: noteData, // Dados da nota
+    data: noteData, // Dados atualizados da nota
   };
 
   return axios
