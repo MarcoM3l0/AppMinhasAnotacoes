@@ -1,9 +1,11 @@
 import express from "express"
-import { getNotas, postNota, updateNota, deleteNota } from "../controllers/notas.js"
+import { getNotas, getNota, postNota, updateNota, deleteNota } from "../controllers/notas.js"
 
 const router = express.Router()
 
 router.get("/", getNotas)
+
+router.get("/:search", getNota)
 
 router.post("/", postNota)
 

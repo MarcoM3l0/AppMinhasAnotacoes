@@ -1,15 +1,27 @@
-import { Text, View } from "react-native";
+import { Text, View, ScrollView } from "react-native";
+import { Header } from "../components/header";
+import { Search } from "../components/search";
+import { Footer } from "../components/footer";
+import { NotesList } from "../components/notesList/NotesList";
+import { Link } from "expo-router";
+
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>olá mundo!</Text>
+    <View className="w-full px-4 bg-gray-100" style={{ flex: 1 }}>
+
+      <Header />
+
+      <Search />
+
+
+      
+      <NotesList />
+
+      <View className="absolute bottom-0 left-4 w-full bg-gray-100">
+        <Footer />
+      </View>
+
     </View>
   );
 }

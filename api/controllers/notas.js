@@ -14,6 +14,29 @@ export const getNotas = (_, res) => {
 
 }
 
+export const getNota = (req, res) => {
+    
+    const search = req.params.search;
+
+    // Determina se o parâmetro é um ID (número) ou um título (string)
+    const isNumeric = !isNaN(search);
+
+    // Monta a consulta SQL baseada no tipo do parâmetro
+    const q = isNumeric
+        ? "SELECT * FROM notas WHERE id = ?"
+        : "SELECT * FROM notas WHERE titulo LIKE ?";
+
+    // Usa o parâmetro correto na consulta
+    const queryParam = isNumeric ? search : `%${search}%`;
+
+    db.query(q, [queryParam], (err, data) => {
+        if(err) return res.json(err);
+
+        return res.status(200).json(data);
+    });
+
+}
+
 
 export const postNota = (req, res) => {
 
