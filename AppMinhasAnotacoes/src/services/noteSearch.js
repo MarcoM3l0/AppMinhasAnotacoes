@@ -5,7 +5,7 @@ import axios from "axios";
 export const SearchNotes = async (query) => {
     
     try {
-        const response = await axios.get(`http://192.168.0.105:8802/${encodeURIComponent(query)}`);
+        const response = await axios.get(`http://192.168.0.100:8802/${encodeURIComponent(query)}`);
         console.log(response.data)
         return response.data;
 

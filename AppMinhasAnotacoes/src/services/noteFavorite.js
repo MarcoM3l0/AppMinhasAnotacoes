@@ -1,6 +1,6 @@
 export const toggleFavoriteNotes = async (ids) => {
     try {
-        const url = 'http://192.168.0.105:8802/'; // URL base do endpoint
+        const url = 'http://192.168.0.100:8802/'; // URL base do endpoint
         const idsArray = Array.isArray(ids) ? ids : [ids];
 
         const results = [];

@@ -1,7 +1,7 @@
 // Função para deletar uma ou múltiplas notas usando fetch, uma por vez
 export const deleteNotes = async (ids) => {
     try {
-        const url = 'http://192.168.0.105:8802/'; // URL do endpoint
+        const url = 'http://192.168.0.100:8802/'; // URL do endpoint
 
         // Se for uma lista de IDs, faz o loop e deleta cada um deles
         if (Array.isArray(ids)) {
