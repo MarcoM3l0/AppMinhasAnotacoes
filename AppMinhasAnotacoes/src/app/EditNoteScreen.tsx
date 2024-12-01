@@ -85,6 +85,14 @@ export default function EditNoteScreen() {
         }
     };
 
+    const colorOptions = [
+        '#4CAF50', // Verde 
+        '#2196F3', // Azul 
+        '#fff', // Padrão 
+        '#FF5722', // Laranja 
+        '#9E9E9E', // Cinza 
+    ];
+
     return (
         <SafeAreaView className="flex-1 bg-gray-100 p-4">
             <ScrollView>
@@ -106,6 +114,29 @@ export default function EditNoteScreen() {
                     onChangeText={setContent}
                     multiline
                 />
+
+                {/* Escolher Cor */}
+                <View className="mb-6">
+                    <Text className="text-lg font-semibold text-gray-700 mb-1">Cor</Text>
+
+                    <View className="flex-row space-x-3">
+                        {colorOptions.map((color) => (
+                            <TouchableOpacity
+                                key={color}
+                                onPress={() => setBackgroundColor(color)}
+                                style={{
+                                    backgroundColor: color,
+                                    width: 30,   // Tamanho reduzido
+                                    height: 30,  // Tamanho reduzido
+                                    borderRadius: 5,  // Bordas quadradas, mas com ligeira suavização
+                                    borderWidth: backgroundColor === color ? 3 : 0, // Borda quando selecionado
+                                    borderColor: '#000',
+                                }}
+                            />
+                        ))}
+                    </View>
+
+                </View>
 
                 <View className="mb-6">
                     <Text className="text-lg font-semibold text-gray-700 mb-2">Etiqueta</Text>
