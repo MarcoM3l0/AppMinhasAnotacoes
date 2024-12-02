@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import { View, TextInput } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
+/**
+ * Componente de busca que permite ao usuário digitar o titulo de uma nota
+ * 
+ * @param {Object} props - Propriedades do componente.
+ * @param {function(string): void} props.onSearch - Função a ser chamada quando a busca for executada.
+ * @returns {JSX.Element} O componente de busca renderizado.
+ */
 export function Search({ onSearch }: { onSearch: (query: string) => void }) {
   const [query, setQuery] = useState('');
 

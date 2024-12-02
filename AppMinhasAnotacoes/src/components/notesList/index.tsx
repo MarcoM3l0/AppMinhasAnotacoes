@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  SectionList,
-  Text,
-  View,
-  ActivityIndicator,
-  TouchableOpacity,
-  Image
-} from "react-native";
+import { SectionList, Text, View, ActivityIndicator, TouchableOpacity, Image } from "react-native";
 import { useRouter } from "expo-router";
 
 import { fetchNotes } from "@/src/services/noteGet";
 
-// Definição do tipo Note
 interface Note {
   id: number;
   titulo: string;
@@ -31,11 +23,21 @@ interface Section {
 
 interface NotesListProps {
   notas: Note[];
-  onSelectNote: (id: number) => void; // Função para selecionar/deselecionar nota
-  selectedNotes: number[]; // IDs das notas selecionadas
+  onSelectNote: (id: number) => void; 
+  selectedNotes: number[]; 
   filteredNotes?: Note[];
 }
 
+/**
+ * Componente que exibe uma lista de notas agrupadas por seção.
+ * 
+ * @param {Object} props - Propriedades do componente.
+ * @param {Note[]} props.notas - Lista de todas as notas.
+ * @param {function(number): void} props.onSelectNote - Função para selecionar/deselecionar uma nota.
+ * @param {number[]} props.selectedNotes - IDs das notas selecionadas.
+ * @param {Note[]} [props.filteredNotes] - Lista de notas filtradas (opcional).
+ * @returns {JSX.Element} O componente de lista de notas renderizado.
+ */
 export function NotesList({ notas, onSelectNote, selectedNotes, filteredNotes }: NotesListProps) {
   const [notes, setNotes] = useState<Section[]>([]);
   const [loading, setLoading] = useState(true);
@@ -45,13 +47,18 @@ export function NotesList({ notas, onSelectNote, selectedNotes, filteredNotes }:
   // Definir os dados a serem exibidos
   const filteredData = filteredNotes && filteredNotes.length > 0 ? filteredNotes : notas;
 
+  /**
+   * Função para abrir os detalhes de uma nota.
+   * 
+   * @param {number} id - O ID da nota a ser aberta.
+   */
   const handleOpenNotes = (id: number): void => {
     const filteredNote = notes[1].data.filter(note => note.id === id);
 
     if (filteredNote.length > 0) {
-      const note = filteredNote[0]; // Pegue a primeira (e única) nota filtrada
+      const note = filteredNote[0]; // Pegua a primeira (e única) nota filtrada
       router.push({
-        pathname: "/NoteDetailsScreen", // Caminho da tela de detalhes
+        pathname: "/NoteDetailsScreen", 
         params: {
           id: note.id, 
           titulo: note.titulo, 
@@ -66,7 +73,6 @@ export function NotesList({ notas, onSelectNote, selectedNotes, filteredNotes }:
       });
     }
   }
-
 
   useEffect(() => {
     if (!filteredNotes || filteredNotes.length === 0) {
@@ -105,7 +111,7 @@ export function NotesList({ notas, onSelectNote, selectedNotes, filteredNotes }:
       ];
       setNotes(sections);
     }
-  }, [filteredNotes, notas]); // A dependência de `notas` deve ser mantida se a lista de notas for dinâmica
+  }, [filteredNotes, notas]); 
 
   // Verifica se ainda está carregando
   if (loading) {

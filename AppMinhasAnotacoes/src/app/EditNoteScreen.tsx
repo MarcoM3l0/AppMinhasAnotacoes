@@ -6,12 +6,14 @@ import { Link, useRouter, useLocalSearchParams } from "expo-router";
 import { updateNote } from "../services/noteUpdate";
 import { fetchNotesById } from "../services/noteGetID"
 
+/**
+ * Componente para editar uma nota existente.
+ * 
+ * @returns {JSX.Element} O componente de edição de nota renderizado.
+ */
 export default function EditNoteScreen() {
-
-
     const router = useRouter();
     const { id } = useLocalSearchParams();
-
 
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -20,6 +22,12 @@ export default function EditNoteScreen() {
     const [image, setImage] = useState('');
     const [isFavorite, setIsFavorite] = useState(false);
 
+    /**
+     * Garante que o valor seja uma string.
+     * 
+     * @param {string | string[] | undefined} value - O valor a ser garantido.
+     * @returns {string} A string garantida.
+     */
     const ensureString = (value: string | string[] | undefined): string => {
         if (Array.isArray(value)) {
             return value[0] || ''; // Pega o primeiro valor do array, se existir
@@ -29,36 +37,27 @@ export default function EditNoteScreen() {
 
     // Pré-preencher os campos ao carregar a nota
     useEffect(() => {
-
-        console.log("1°:" + title)
         const fetchNoteData = async () => {
             try {
                 const noteData = await fetchNotesById(id); // Busca a nota com o ID
-                console.log("Aqui: " + noteData)
-
                 setTitle(ensureString(noteData.titulo));
                 setContent(ensureString(noteData.conteudo));
                 setTag(ensureString(noteData.etiqueta));
                 setBackgroundColor(ensureString(noteData.cor_fundo) || '#fff');
                 setImage(ensureString(noteData.imagem));
                 setIsFavorite(noteData.favorito === true); // Assume que favorito é booleano
-
-
-
             } catch (error) {
                 console.error("Erro ao buscar nota:", error);
                 router.push('/'); // Voltar para a tela inicial
-
             }
         };
 
         fetchNoteData();
-
-
     }, [id]);
 
-
-    // Função para salvar ou editar a nota
+    /**
+     * Função para salvar ou editar a nota.
+     */
     const handleSaveNote = async () => {
         if (!title.trim() || !content.trim()) {
             alert("Título e conteúdo são obrigatórios.");

@@ -4,23 +4,26 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
 
-
-
 import { saveNote } from '../services/noteCreate';
 
-
+/**
+ * Componente para criar uma nova nota.
+ * 
+ * @returns {JSX.Element} O componente de criação de nota renderizado.
+ */
 export default function CreateNoteScreen() {
-
     const router = useRouter();
 
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [tag, setTag] = useState('');
-    const [backgroundColor, setBackgroundColor] = useState('#fff'); // Cor de fundo
-    const [image, setImage] = useState(''); // Nome da imagem
-    const [isFavorite, setIsFavorite] = useState(false); // Favorito
+    const [backgroundColor, setBackgroundColor] = useState('#fff');
+    const [image, setImage] = useState('');
+    const [isFavorite, setIsFavorite] = useState(false);
 
-    // Função para salvar a nota
+    /**
+     * Função para salvar a nota.
+     */
     const handleSaveNote = async () => {
 
         // Verifica se título e conteúdo não estão vazios
@@ -29,7 +32,7 @@ export default function CreateNoteScreen() {
             return;
         }
 
-        // Verifica se o título não é muito grande (exemplo: máximo de 100 caracteres)
+        // Verifica se o título não é muito grande (máximo de 100 caracteres)
         if (title.length > 100) {
             alert("O título não pode ser maior que 100 caracteres.");
             return;
@@ -45,13 +48,13 @@ export default function CreateNoteScreen() {
         };
 
         try {
-            const response = await saveNote(noteData); // Chamando o serviço para salvar
-            console.log(response); // Exibe a resposta da API no console
-            router.push('/'); // Após salvar, redireciona para a tela inicial
+            const response = await saveNote(noteData);
+            router.push('/');
         } catch (error) {
             console.error("Erro ao salvar a nota:", error);
         }
     };
+
 
     const colorOptions = [
         '#4CAF50', // Verde 
@@ -60,7 +63,6 @@ export default function CreateNoteScreen() {
         '#FF5722', // Laranja 
         '#9E9E9E', // Cinza 
     ];
-
 
     return (
         <SafeAreaView className="flex-1 bg-gray-100 p-4">
@@ -92,9 +94,6 @@ export default function CreateNoteScreen() {
                         <Ionicons name="image-outline" size={24} color="white" />
                         <Text className="text-white text-center font-semibold ml-2">Imagem</Text>
                     </TouchableOpacity>
-
-
-
                 </View>
 
                 {/* Escolher Cor */}
@@ -107,21 +106,12 @@ export default function CreateNoteScreen() {
                                 key={color}
                                 onPress={() => setBackgroundColor(color)}
                                 style={{
-                                    backgroundColor: color,
-                                    width: 30,   // Tamanho reduzido
-                                    height: 30,  // Tamanho reduzido
-                                    borderRadius: 5,  // Bordas quadradas, mas com ligeira suavização
-                                    borderWidth: backgroundColor === color ? 3 : 0, // Borda quando selecionado
-                                    borderColor: '#000',
+                                    backgroundColor: color, width: 30, height: 30, borderRadius: 5, borderWidth: backgroundColor === color ? 3 : 0, borderColor: '#000',
                                 }}
                             />
                         ))}
                     </View>
-                    
                 </View>
-
-
-
 
                 {/* Campo: Etiqueta */}
                 <View className="mb-6">
@@ -149,4 +139,4 @@ export default function CreateNoteScreen() {
             </ScrollView>
         </SafeAreaView>
     );
-};
+}

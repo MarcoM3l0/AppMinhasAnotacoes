@@ -6,16 +6,16 @@ export const saveNote = (noteData) => {
 
   const options = {
     method: 'POST',
-    url: `${API_URL}`,  // URL do seu servidor
+    url: `${API_URL}`,  
     headers: { 'Content-Type': 'application/json' },
-    data: noteData, // Dados da nota
+    data: noteData, 
   };
 
   return axios
     .request(options)
-    .then(response => response.data) // Retorna os dados da resposta
+    .then(response => response.data) 
     .catch(error => {
-      console.error(error); // Trata erro
-      throw error; // Repassa o erro para quem chamou a função
+      console.error(error); 
+      throw error; 
     });
 };
