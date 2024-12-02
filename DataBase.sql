@@ -35,7 +35,7 @@ CREATE TABLE `notas` (
   `data_edicao` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `favorito` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `notas` (
 
 LOCK TABLES `notas` WRITE;
 /*!40000 ALTER TABLE `notas` DISABLE KEYS */;
-INSERT INTO `notas` VALUES (20,'José ','Teste 2','#fff','','','2024-12-01 02:34:23','2024-12-01 05:34:35',0),(24,'Marco','Teste','#fff','','','2024-12-01 05:23:20','2024-12-01 05:23:20',0),(25,'Melo','Teste','#fff','','','2024-12-01 05:34:31','2024-12-01 05:34:31',0),(26,'Nascimento','Teste','#fff','','','2024-12-01 05:35:25','2024-12-01 05:35:25',0),(27,'José Marco','Teste','#fff','','','2024-12-01 05:37:12','2024-12-01 05:37:12',0),(28,'José Marco Melo ','Teste','#fff','','','2024-12-01 05:37:54','2024-12-01 05:37:54',0),(29,'José Marco Melo Nascimento ','Teste','#fff','','','2024-12-01 05:38:14','2024-12-01 05:38:25',0);
+INSERT INTO `notas` VALUES (20,'José ','Teste 2','#fff','Ok','','2024-12-01 02:34:23','2024-12-02 01:55:07',0),(24,'Marco','Teste','#fff','','','2024-12-01 05:23:20','2024-12-02 01:55:09',0),(25,'Melo','Teste','#fff','','','2024-12-01 05:34:31','2024-12-01 16:49:58',0),(26,'Nascimento','Teste','#fff','','','2024-12-01 05:35:25','2024-12-01 16:49:58',0),(27,'José Marco','Teste','#fff','','','2024-12-01 05:37:12','2024-12-01 16:49:59',0),(28,'José Marco Melo ','Teste','#fff','','','2024-12-01 05:37:54','2024-12-01 16:49:59',0),(29,'José Marco Melo Nascimento ','Teste','#fff','','','2024-12-01 05:38:14','2024-12-01 22:02:45',0);
 /*!40000 ALTER TABLE `notas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-01  5:39:46
+-- Dump completed on 2024-12-02 17:31:09
