@@ -10,6 +10,18 @@ import { toggleFavoriteNotes } from "../services/noteFavorite";
 import { SearchNotes } from "../services/noteSearch";
 import { useRouter } from "expo-router";
 
+interface Note {
+  id: number;
+  titulo: string;
+  conteudo: string;
+  cor_fundo?: string;
+  etiqueta?: string;
+  imagem?: string;
+  data_criacao: string;
+  data_edicao: string;
+  favorito: boolean;
+}
+
 /**
  * Componente principal da aplicação.
  * 
@@ -20,10 +32,10 @@ export default function Index() {
 
   // Estado para as notas selecionadas
   const [selectedNotes, setSelectedNotes] = useState<number[]>([]);
-  
+
   // Estado para todas as notas
   const [notes, setNotes] = useState<any[]>([]);
-  
+
   // Estado para as notas filtradas (resultado de uma busca)
   const [filteredNotes, setFilteredNotes] = useState([]);
 
@@ -56,8 +68,7 @@ export default function Index() {
     console.log("Favoritando notas:", ids);
 
     try {
-      const results = await toggleFavoriteNotes(ids);
-      console.log("Resultados da atualização:", results);
+      toggleFavoriteNotes(ids);
 
       setSelectedNotes([]); // Limpa a seleção após a ação
 
@@ -86,7 +97,26 @@ export default function Index() {
       return;
     }
 
-    router.push(`/EditNoteScreen?id=${id[0]}`);
+    const Id = Number(id);
+
+    const note: Note = notes.find(n => n.id === Id) as Note;
+
+    router.push({
+      pathname: "/EditNoteScreen",
+      params: {
+        id: note.id,
+        titulo: note.titulo,
+        conteudo: note.conteudo,
+        cor_fundo: note.cor_fundo,
+        etiqueta: note.etiqueta,
+        imagem: note.imagem,
+        data_criacao: note.data_criacao,
+        data_edicao: note.data_edicao,
+        favorito: note.favorito ? 1 : 0,
+      },
+    });
+
+
   };
 
   /**
@@ -139,7 +169,7 @@ export default function Index() {
             selectedNotes={selectedNotes}
           />
         </View>
-        
+
         <View className="absolute bottom-0 left-0 right-0 bg-gray-100">
           <Footer
             selectedNotes={selectedNotes}

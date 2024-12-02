@@ -1,10 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link, useRouter, useLocalSearchParams } from "expo-router";
+import { useRoute } from "@react-navigation/native";
+import { Link, useRouter } from "expo-router";
 
 import { updateNote } from "../services/noteUpdate";
 import { fetchNotesById } from "../services/noteGetID"
+
+type Note = {
+    id: number;
+    titulo: string;
+    conteudo: string;
+    cor_fundo: string;
+    etiqueta: string;
+    imagem: string;
+    data_criacao: string;
+    data_edicao: string;
+    favorito: number;
+}
 
 /**
  * Componente para editar uma nota existente.
@@ -12,8 +25,10 @@ import { fetchNotesById } from "../services/noteGetID"
  * @returns {JSX.Element} O componente de edição de nota renderizado.
  */
 export default function EditNoteScreen() {
+    const route = useRoute();
     const router = useRouter();
-    const { id } = useLocalSearchParams();
+
+    const { id, titulo, conteudo, cor_fundo, etiqueta, imagem, data_criacao, data_edicao, favorito } = route.params as Note;
 
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -39,13 +54,11 @@ export default function EditNoteScreen() {
     useEffect(() => {
         const fetchNoteData = async () => {
             try {
-                const noteData = await fetchNotesById(id); // Busca a nota com o ID
-                setTitle(ensureString(noteData.titulo));
-                setContent(ensureString(noteData.conteudo));
-                setTag(ensureString(noteData.etiqueta));
-                setBackgroundColor(ensureString(noteData.cor_fundo) || '#fff');
-                setImage(ensureString(noteData.imagem));
-                setIsFavorite(noteData.favorito === true); // Assume que favorito é booleano
+                setTitle(titulo);
+                setContent(conteudo);
+                setTag(etiqueta);
+                setBackgroundColor(cor_fundo || '#fff');
+                setImage(imagem); // Assume que favorito é booleano
             } catch (error) {
                 console.error("Erro ao buscar nota:", error);
                 router.push('/'); // Voltar para a tela inicial
@@ -73,6 +86,7 @@ export default function EditNoteScreen() {
             imagem: image,
             favorito: isFavorite,
         };
+
 
         try {
             await updateNote(noteData); // Editar nota

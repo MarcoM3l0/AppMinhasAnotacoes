@@ -19,7 +19,6 @@ export const toggleFavoriteNotes = async (ids) => {
             }
 
             const nota = await getResponse.json();
-            console.log("Nota completa: " + JSON.stringify(nota, null, 2));
 
             // Acessa o primeiro item do array e alterna o valor de favorito
             const favoritoAtual = nota[0].favorito;
@@ -53,11 +52,6 @@ export const toggleFavoriteNotes = async (ids) => {
             if (!putResponse.ok) {
                 throw new Error(`Erro ao atualizar a nota com ID ${id}: ${putResponse.statusText}`);
             }
-
-            // Adiciona o resultado da atualização ao array de resultados
-            const data = await putResponse.json();
-            console.log(`Resultado da atualização da nota com ID ${id}:`, data);
-            results.push(data);
         }
 
         return results; // Retorna os resultados de todas as atualizações

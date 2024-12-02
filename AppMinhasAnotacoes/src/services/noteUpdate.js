@@ -1,21 +1,20 @@
-import axios from "axios";
 import { API_URL } from '@env';
 
 // Função para editar a nota no banco
-export const updateNote = (noteData) => {
+export const updateNote = async (noteData) => {
 
-  const options = {
+  console.log(noteData)
+  const putResponse = await fetch(`${API_URL}${noteData.id}`, {
     method: 'PUT',
-    url: `${API_URL}/${noteData.id}`, // URL do seu servidor com o ID da nota
-    headers: { 'Content-Type': 'application/json' },
-    data: noteData, // Dados atualizados da nota
-  };
+    headers: {
+      'User-Agent': 'insomnia/10.2.0',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(noteData) // Envia todos os dados da nota
+  });
 
-  return axios
-    .request(options)
-    .then(response => response.data) // Retorna os dados da resposta
-    .catch(error => {
-      console.error(error); // Trata erro
-      throw error; // Repassa o erro para quem chamou a função
-    });
+  if (!putResponse.ok) {
+    throw new Error(`Erro ao atualizar a nota com ID ${noteData.id}: ${putResponse.statusText}`);
+  }
+
 };
