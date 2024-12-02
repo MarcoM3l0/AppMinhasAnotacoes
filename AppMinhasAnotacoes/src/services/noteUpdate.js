@@ -10,7 +10,7 @@ export const updateNote = async (noteData) => {
       'User-Agent': 'insomnia/10.2.0',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(noteData) // Envia todos os dados da nota
+    body: JSON.stringify(noteData) 
   });
 
   if (!putResponse.ok) {

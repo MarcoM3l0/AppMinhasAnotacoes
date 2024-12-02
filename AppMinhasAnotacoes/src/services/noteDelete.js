@@ -5,6 +5,7 @@ export const deleteNotes = async (ids) => {
 
         // Se for uma lista de IDs, faz o loop e deleta cada um deles
         if (Array.isArray(ids)) {
+
             // Loop para deletar um ID por vez
             const results = [];
             for (const id of ids) {
@@ -20,13 +21,13 @@ export const deleteNotes = async (ids) => {
                     throw new Error(`Erro ao deletar nota com ID ${id}: ${response.statusText}`);
                 }
 
-                // Adiciona a resposta da exclusão ao array de resultados
                 const data = await response.json();
                 results.push(data);
             }
 
-            return results; // Retorna os resultados de todas as exclusões
+            return results;
         } else {
+
             // Deletando uma única nota
             const response = await fetch(`${url}${ids}`, {
                 method: 'DELETE',
@@ -40,7 +41,7 @@ export const deleteNotes = async (ids) => {
                 throw new Error(`Erro ao deletar nota com ID ${ids}: ${response.statusText}`);
             }
 
-            // Retorna a resposta da exclusão
+            
             return await response.json();
         }
     } catch (error) {

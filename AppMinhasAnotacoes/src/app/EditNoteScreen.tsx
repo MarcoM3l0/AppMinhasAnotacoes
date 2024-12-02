@@ -5,7 +5,6 @@ import { useRoute } from "@react-navigation/native";
 import { Link, useRouter } from "expo-router";
 
 import { updateNote } from "../services/noteUpdate";
-import { fetchNotesById } from "../services/noteGetID"
 
 type Note = {
     id: number;

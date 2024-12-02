@@ -22,7 +22,7 @@ export const SearchNotes = async (query) => {
     return data;
 
   } catch (error) {
-    console.error("Erro ao buscar notas:", error); // Trata erro
+    console.error("Erro ao buscar notas:", error); 
     throw new Error("Erro ao buscar notas: " + error);
   }
 };
