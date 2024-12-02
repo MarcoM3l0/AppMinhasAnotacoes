@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image
 } from "react-native";
+import { useRouter } from "expo-router";
 
 import { fetchNotes } from "@/src/services/noteGet";
 
@@ -39,8 +40,32 @@ export function NotesList({ notas, onSelectNote, selectedNotes, filteredNotes }:
   const [notes, setNotes] = useState<Section[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const router = useRouter();
+
   // Definir os dados a serem exibidos
   const filteredData = filteredNotes && filteredNotes.length > 0 ? filteredNotes : notas;
+
+  const handleOpenNotes = (id: number): void => {
+    const filteredNote = notes[1].data.filter(note => note.id === id);
+
+    if (filteredNote.length > 0) {
+      const note = filteredNote[0]; // Pegue a primeira (e única) nota filtrada
+      router.push({
+        pathname: "/NoteDetailsScreen", // Caminho da tela de detalhes
+        params: {
+          id: note.id, 
+          titulo: note.titulo, 
+          conteudo: note.conteudo, 
+          cor_fundo: note.cor_fundo, 
+          etiqueta: note.etiqueta, 
+          imagem: note.imagem, 
+          data_criacao: note.data_criacao, 
+          data_edicao: note.data_edicao, 
+          favorito: note.favorito ? 1 : 0,
+        },
+      });
+    }
+  }
 
 
   useEffect(() => {
@@ -100,46 +125,48 @@ export function NotesList({ notas, onSelectNote, selectedNotes, filteredNotes }:
           }}
         >
           {/* Card */}
-          <View className="flex-row items-center justify-between bg-white p-4 mt-3 gap-2 rounded-lg shadow-md mb-4"
-            style={{ backgroundColor: item.cor_fundo || '#fff' }}>
+          <TouchableOpacity onPress={() => handleOpenNotes(item.id)} className="w-full h-full">
+            <View className="flex-row items-center justify-between bg-white p-4 mt-3 gap-2 rounded-lg shadow-md mb-4"
+              style={{ backgroundColor: item.cor_fundo || '#fff' }}>
 
-            {/* Checkbox */}
-            <TouchableOpacity
-              onPress={() => onSelectNote(item.id)}
-              style={{
-                width: 20,
-                height: 20,
-                borderRadius: 5,
-                borderWidth: 2,
-                borderColor: selectedNotes.includes(item.id) ? "green" : "#ccc",
-                backgroundColor: selectedNotes.includes(item.id)
-                  ? "green"
-                  : "transparent",
-                marginRight: 10,
-              }}
-            />
-
-            {/* Titulo */}
-            <View className="flex-1">
-              <Text className="text-lg font-bold text-gray-800">{item.titulo}</Text>
-            </View>
-
-
-            {/* Etiqueta */}
-            <View className="flex-1">
-              <Text className="text-lg text-gray-800">{item.etiqueta}</Text>
-            </View>
-
-
-            {/* Imagem opcional */}
-            {item.imagem && (
-              <Image
-                source={{ uri: item.imagem }}
-                className="w-16 h-16 ml-4 rounded-md"
-                resizeMode="cover"
+              {/* Checkbox */}
+              <TouchableOpacity
+                onPress={() => onSelectNote(item.id)}
+                style={{
+                  width: 20,
+                  height: 20,
+                  borderRadius: 5,
+                  borderWidth: 2,
+                  borderColor: selectedNotes.includes(item.id) ? "green" : "#ccc",
+                  backgroundColor: selectedNotes.includes(item.id)
+                    ? "green"
+                    : "transparent",
+                  marginRight: 10,
+                }}
               />
-            )}
-          </View>
+
+              {/* Titulo */}
+              <View className="flex-1">
+                <Text className="text-lg font-bold text-gray-800">{item.titulo}</Text>
+              </View>
+
+
+              {/* Etiqueta */}
+              <View className="flex-1">
+                <Text className="text-lg text-gray-800">{item.etiqueta}</Text>
+              </View>
+
+
+              {/* Imagem opcional */}
+              {item.imagem && (
+                <Image
+                  source={{ uri: item.imagem }}
+                  className="w-16 h-16 ml-4 rounded-md"
+                  resizeMode="cover"
+                />
+              )}
+            </View>
+          </TouchableOpacity>
         </View>
       )}
       renderSectionHeader={({ section }) => (

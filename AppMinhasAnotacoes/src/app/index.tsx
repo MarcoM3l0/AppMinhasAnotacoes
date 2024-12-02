@@ -57,10 +57,6 @@ export default function Index() {
 
   };
 
-  const handleOpenNotes = (ids: number[]) => {
-    console.log("Abrindo notas:", ids);
-    // Lógica para abrir
-  };
 
   const handleEditNotes = (id: number[]) => {
 
